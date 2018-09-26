@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>todolist</title>
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
+    <style>
+        .del{color: #cccccc!important;text-decoration: line-through;}
+    </style>
+</head>
+<body>
+<div id="app">
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">TodoList</a>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header bg-info">
+                        <h2 class="text-white">亲~ ^_^，您还有 <span class="text-danger">{{count}}</span>
+                            件事情要完成</h2>
+                        <input type="text" class="form-control" v-model="title" @keyup.13="add">
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(todo,index) in todoLists" @dblclick="remember(todo)">
+                                <!--如果isSelected是true，则del样式生效-->
+                                <span :class="{del:todo.isSelected}" v-show="cur!=todo">
+                                    <input type="checkbox" v-model="todo.isSelected">{{todo.title}}</span>
+                                <input type="text" v-model="todo.title" v-show="cur==todo"
+                                       @keyup.13="cancel" @blur="cancel" v-focus="cur==todo">
+                                <button class="btn btn-danger btn-sm float-right" @click="remove(todo)">&bigotimes;</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                                <a class="nav-link"  :class="{active:hash==='all'}"
+                                   href="#/all">全部</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" :class="{active:hash==='finish'}"
+                                   href="#/finish">已完成</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" :class="{active:hash==='unfinish'}"
+                                   href="#/unfinish">未完成</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="node_modules/vue/dist/vue.js"></script>
+<script src="node_modules/axios/dist/axios.js"></script>
+<script src="todo.js"></script>
+</html>
